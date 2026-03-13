@@ -98,6 +98,25 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 Button.displayName = "Button";
 ```
 
+## Fontes
+
+As fontes são configuradas em `src/app/globals.css`:
+
+- **Sans**: Fonte padrão do sistema (`font-sans` - já é o padrão do Tailwind)
+- **Mono**: JetBrains Mono (`font-mono`)
+
+Configure em `@theme`:
+
+```css
+@theme {
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+```
+
+Use as classes nativas do Tailwind:
+- `font-sans` para texto sem serifa (padrão)
+- `font-mono` para texto monospaced
+
 ## Dependências
 
 Instale as seguintes bibliotecas:

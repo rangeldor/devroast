@@ -2,15 +2,15 @@ import { Button } from "@/components/ui/button";
 
 export default function ComponentsPage() {
 	return (
-		<div className="min-h-screen bg-zinc-50 p-8">
+		<div className="min-h-screen bg-background p-8">
 			<div className="mx-auto max-w-4xl space-y-12">
-				<h1 className="text-3xl font-bold text-zinc-900">Componentes UI</h1>
+				<h1 className="text-3xl font-bold text-foreground">Componentes UI</h1>
 
 				<section className="space-y-4">
-					<h2 className="text-xl font-semibold text-zinc-700">Button</h2>
+					<h2 className="text-xl font-semibold text-foreground">Button</h2>
 
-					<div className="flex flex-wrap gap-4 rounded-lg border border-zinc-200 bg-white p-8">
-						<h3 className="w-full text-sm font-medium text-zinc-500">
+					<div className="flex flex-wrap gap-4 rounded-lg border border-border bg-card p-8">
+						<h3 className="w-full text-sm font-medium text-muted-foreground">
 							Variants
 						</h3>
 
@@ -22,8 +22,10 @@ export default function ComponentsPage() {
 						</div>
 					</div>
 
-					<div className="flex flex-wrap gap-4 rounded-lg border border-zinc-200 bg-white p-8">
-						<h3 className="w-full text-sm font-medium text-zinc-500">Sizes</h3>
+					<div className="flex flex-wrap gap-4 rounded-lg border border-border bg-card p-8">
+						<h3 className="w-full text-sm font-medium text-muted-foreground">
+							Sizes
+						</h3>
 
 						<div className="flex flex-wrap items-center gap-4">
 							<Button size="sm">Small</Button>
@@ -32,8 +34,10 @@ export default function ComponentsPage() {
 						</div>
 					</div>
 
-					<div className="flex flex-wrap gap-4 rounded-lg border border-zinc-200 bg-white p-8">
-						<h3 className="w-full text-sm font-medium text-zinc-500">States</h3>
+					<div className="flex flex-wrap gap-4 rounded-lg border border-border bg-card p-8">
+						<h3 className="w-full text-sm font-medium text-muted-foreground">
+							States
+						</h3>
 
 						<div className="flex flex-wrap gap-4">
 							<Button>Default</Button>
