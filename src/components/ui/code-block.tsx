@@ -9,7 +9,7 @@ type CodeBlockRootProps = ComponentProps<"div"> &
 	};
 
 const CodeBlockRoot = forwardRef<HTMLDivElement, CodeBlockRootProps>(
-	({ className, height = 'auto', children, ...props }, ref) => {
+	({ className, height = "auto", children, ...props }, ref) => {
 		return (
 			<div
 				ref={ref}

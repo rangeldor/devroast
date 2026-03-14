@@ -134,9 +134,7 @@ export default function LeaderboardPage() {
 									</div>
 								</CodeBlockHeader>
 								<CodeBlockBody>
-									<CodeBlockLineNumbers
-										lines={entry.lines}
-									/>
+									<CodeBlockLineNumbers lines={entry.lines} />
 									<CodeBlockCode className="px-4 py-4">
 										{entry.code.map((line, index) => (
 											<code
