@@ -144,12 +144,10 @@ export default function ResultPage() {
 								</span>
 							</div>
 						</CodeBlockHeader>
-						<div className="bg-input">
-							<CodeBlockWithLineNumbers
-								code={staticRoastData.code.join("\n")}
-								language={staticRoastData.language}
-							/>
-						</div>
+						<CodeBlockWithLineNumbers
+							code={staticRoastData.code.join("\n")}
+							language={staticRoastData.language}
+						/>
 					</CodeBlockRoot>
 				</section>
 
@@ -230,7 +228,7 @@ export default function ResultPage() {
 								main.js
 							</span>
 						</CodeBlockHeader>
-						<div className="flex flex-col bg-input">
+						<div className="flex flex-col">
 							{staticRoastData.diff.map((line, index) => (
 								<DiffLineRoot
 									key={index}

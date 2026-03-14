@@ -133,7 +133,7 @@ export default function LeaderboardPage() {
 										</span>
 									</div>
 								</CodeBlockHeader>
-								<CodeBlockBody>
+								<CodeBlockBody className="flex-row">
 									<CodeBlockLineNumbers lines={entry.lines} />
 									<CodeBlockCode className="px-4 py-4">
 										{entry.code.map((line, index) => (
