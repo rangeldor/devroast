@@ -3,6 +3,11 @@
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import {
+	CodeEditor,
+	type Language,
+	type Theme,
+} from "@/components/ui/code-editor";
 import { ToggleRoot } from "@/components/ui/toggle";
 
 const sampleCode = `// paste your code here...`;
@@ -10,6 +15,8 @@ const sampleCode = `// paste your code here...`;
 export function CodeInputSection() {
 	const [roastMode, setRoastMode] = useState(true);
 	const [code, setCode] = useState(sampleCode);
+	const [language, setLanguage] = useState<Language>("javascript");
+	const [theme, setTheme] = useState<Theme>("dark");
 
 	return (
 		<section className="flex w-full max-w-4xl flex-col gap-8">
@@ -26,17 +33,15 @@ export function CodeInputSection() {
 				roast mode
 			</p>
 
-			<div className="flex h-[360px] w-full flex-col rounded-lg border border-border-primary bg-input">
-				<div className="flex h-10 items-center gap-3 border-b border-border-primary px-4">
-					<span className="h-3 w-3 rounded-full bg-red-accent" />
-					<span className="h-3 w-3 rounded-full bg-amber-accent" />
-					<span className="h-3 w-3 rounded-full bg-green-primary" />
-				</div>
-				<textarea
-					className="flex-1 resize-none bg-input px-3 py-3 font-mono text-sm text-foreground placeholder:text-muted-foreground focus:outline-none"
-					placeholder="// paste your code here..."
+			<div className="flex h-[360px] w-full flex-col rounded-lg border border-border-primary bg-input overflow-hidden">
+				<CodeEditor
 					value={code}
-					onChange={(e) => setCode(e.target.value)}
+					onChange={setCode}
+					language={language}
+					theme={theme}
+					onLanguageChange={setLanguage}
+					onThemeChange={setTheme}
+					placeholder="// paste your code here..."
 				/>
 			</div>
 
