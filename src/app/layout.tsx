@@ -10,6 +10,7 @@ import {
 } from "@/components/navbar";
 
 import "./globals.css";
+import Link from "next/link";
 
 const jetbrainsMono = JetBrains_Mono({
 	variable: "--font-jetbrains-mono",
@@ -28,7 +29,9 @@ export default function RootLayout({
 				<NavbarRoot>
 					<NavbarLogo>
 						<NavbarLogoPrompt>&gt;</NavbarLogoPrompt>
-						<NavbarLogoText>devroast</NavbarLogoText>
+						<Link href={"/"}>
+							<NavbarLogoText>devroast</NavbarLogoText>
+						</Link>
 					</NavbarLogo>
 					<NavbarSpacer />
 					<NavbarLink href="/leaderboard">leaderboard</NavbarLink>

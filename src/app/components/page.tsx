@@ -81,9 +81,10 @@ export default function ComponentsPage() {
 						// buttons
 					</h2>
 					<div className="flex flex-wrap items-center gap-4 rounded-lg border border-border bg-card p-8">
-						<Button variant="primary">$ roast_my_code</Button>
-						<Button variant="secondary">$ share_roast</Button>
-						<Button variant="ghost">$ view_all &gt;&gt;</Button>
+						<Button variant="primary">Primary</Button>
+						<Button variant="secondary">Secondary</Button>
+						<Button variant="outline">Outline</Button>
+						<Button variant="ghost">Ghost</Button>
 					</div>
 				</section>
 

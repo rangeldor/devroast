@@ -7,6 +7,7 @@ import {
 	LeaderboardRowRoot,
 	LeaderboardRowScore,
 } from "@/components/ui/leaderboard-row";
+import { Button } from "./ui/button";
 
 const leaderboardData = [
 	{
@@ -36,11 +37,8 @@ export function LeaderboardPreview() {
 				<span className="font-mono text-lg font-semibold text-foreground">
 					// top_ranked_shame
 				</span>
-				<Link
-					href="/leaderboard"
-					className="font-mono text-xs text-muted-foreground hover:text-green-primary"
-				>
-					view_all &gt;&gt;
+				<Link href={"/leaderboard"}>
+					<Button variant="outline">$ view_all &gt;&gt;</Button>
 				</Link>
 			</div>
 
