@@ -135,3 +135,53 @@ import type { ButtonProps } from "@/components/ui/button";
 ## Por que não usar clsx?
 
 O `twMerge` já resolve conflitos de classes Tailwind automaticamente. O `clsx` é útil para lógica condicional complexa, mas não é necessário quando se usa `tv()` do tailwind-variants combinado com `twMerge`.
+
+## Padrão de Composição
+
+Quando um componente possui partes内部 (children) que precisam ser estilizadas separadamente, divida o componente em sub-componentes com sufixo:
+
+```typescript
+// Errado - props title, description
+<Card title="..." description="..." />
+
+// Correto - componentes compostos
+<CardRoot>
+  <CardHeader>
+    <CardTitle>...</CardTitle>
+  </CardHeader>
+  <CardDescription>...</CardDescription>
+</CardRoot>
+```
+
+Exemplos de nomenclatura:
+- `AnalysisCardRoot`, `AnalysisCardHeader`, `AnalysisCardTitle`, `AnalysisCardDescription`
+- `CodeBlockRoot`, `CodeBlockHeader`, `CodeBlockDot`, `CodeBlockBody`
+- `DiffLineRoot`, `DiffLinePrefix`, `DiffLineCode`
+
+## Server Components
+
+Para componentes que renderizam no servidor (como syntax highlighting com shiki):
+
+1. Crie um arquivo `.server.tsx` para o componente async
+2. Use apenas para operações que não precisam de interação client-side
+
+```typescript
+// code-block.server.tsx
+export async function CodeBlockServer({ code, language }: Props) {
+  const html = await codeToHtml(code, { lang: language, theme: "vesper" });
+  return <div dangerouslySetInnerHTML={{ __html: html }} />;
+}
+```
+
+## Biblioteca base-ui
+
+Para componentes que precisam de comportamento (switch, accordion, etc), use `@base-ui/react`:
+
+```bash
+npm install @base-ui/react
+```
+
+Exemplo de import:
+```typescript
+import { Root as SwitchRoot, Thumb as SwitchThumb } from "@base-ui/react/switch";
+```

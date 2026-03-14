@@ -31,6 +31,7 @@
 
 	--color-border: var(--border);
 	--color-border-focus: var(--border-focus);
+	--color-border-primary: var(--border-primary);
 
 	--color-ring: var(--ring);
 
@@ -97,6 +98,7 @@
 	--muted-foreground: #666666;
 
 	--border: #cbccc9;
+	--border-primary: #1f1f1f;
 	--border-focus: #10b981;
 
 	--ring: #666666;
@@ -164,6 +166,7 @@
 	--muted-foreground: #b8b9b6;
 
 	--border: #2e2e2e;
+	--border-primary: #1f1f1f;
 	--border-focus: #10b981;
 
 	--ring: #666666;
