@@ -1,3 +1,14 @@
+import { CodeInputSection } from "@/components/code-input-section";
+import { LeaderboardPreview } from "@/components/leaderboard-preview";
+
 export default function Home() {
-	return null;
+	return (
+		<main className="flex min-h-[calc(100vh-3.5rem)] flex-col items-center bg-background pt-20">
+			<div className="mx-auto flex w-full max-w-6xl flex-col items-center gap-12 px-6 pb-20">
+				<CodeInputSection />
+				<div className="h-[60px]" />
+				<LeaderboardPreview />
+			</div>
+		</main>
+	);
 }

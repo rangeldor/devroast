@@ -1,16 +1,21 @@
 import { type ComponentProps, forwardRef } from "react";
-
 import { twMerge } from "tailwind-merge";
+import type { VariantProps } from "tailwind-variants";
 import { type CodeBlockVariant, codeBlock } from "./code-block.styles";
 
-type CodeBlockRootProps = ComponentProps<"div"> & {
-	className?: string;
-};
+type CodeBlockRootProps = ComponentProps<"div"> &
+	VariantProps<typeof codeBlock> & {
+		className?: string;
+	};
 
 const CodeBlockRoot = forwardRef<HTMLDivElement, CodeBlockRootProps>(
-	({ className, children, ...props }, ref) => {
+	({ className, height, children, ...props }, ref) => {
 		return (
-			<div ref={ref} className={twMerge(codeBlock({ className }))} {...props}>
+			<div
+				ref={ref}
+				className={twMerge(codeBlock({ height, className }))}
+				{...props}
+			>
 				{children}
 			</div>
 		);

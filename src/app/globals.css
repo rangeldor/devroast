@@ -48,6 +48,7 @@
 	--color-info-foreground: var(--color-info-foreground);
 
 	--color-green-primary: var(--green-primary);
+	--color-green-primary-foreground: var(--green-primary-foreground);
 	--color-red-accent: var(--red-accent);
 	--color-amber-accent: var(--amber-accent);
 	--color-orange-accent: var(--orange-accent);
@@ -104,6 +105,7 @@
 	--ring: #666666;
 
 	--green-primary: #22c55e;
+	--green-primary-foreground: #000000;
 	--red-accent: #ef4444;
 	--amber-accent: #f59e0b;
 	--orange-accent: #f97316;
@@ -172,6 +174,7 @@
 	--ring: #666666;
 
 	--green-primary: #22c55e;
+	--green-primary-foreground: #000000;
 	--red-accent: #ef4444;
 	--amber-accent: #f59e0b;
 	--orange-accent: #f97316;

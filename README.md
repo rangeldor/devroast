@@ -1,36 +1,26 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# DevRoast
 
-## Getting Started
+**paste your code. get roasted.**
 
-First, run the development server:
+DevRoast is a fun web app where you can submit your code and get it brutally analyzed and roasted by an AI. Built with love (and sarcasm) during NLW from Rocketseat.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## What is DevRoast?
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Ever wrote some code and wondered "is this bad?" Well, wonder no more! DevRoast will tell you exactly how bad your code is — with maximum honesty and sarcasm.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Simply paste your code, choose your roast mode (subtle burn or full destruction), and get ready for an entertaining analysis of everything wrong with your code.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Features
 
-## Learn More
+- **Code Input** — Paste any code and get instant feedback
+- **Roast Modes** — Choose between gentle suggestions or maximum sarcasm
+- **Leaderboard** — See the worst code on the internet, ranked by shame
+- **Beautiful UI** — Dark mode interface with syntax highlighting
 
-To learn more about Next.js, take a look at the following resources:
+## Tech
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Built with Next.js, Tailwind CSS, and Shiki for syntax highlighting.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## License
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT

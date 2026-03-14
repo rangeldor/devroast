@@ -14,7 +14,7 @@ const NavbarRoot = forwardRef<HTMLElement, NavbarRootProps>(
 			<nav
 				ref={ref as React.RefObject<HTMLDivElement>}
 				className={twMerge(
-					"flex h-14 items-center border-b border-border bg-background px-6",
+					"flex h-14 w-full items-center border-b border-border-primary bg-background px-10",
 					className,
 				)}
 				{...props}
