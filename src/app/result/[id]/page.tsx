@@ -1,13 +1,8 @@
 import type { Metadata } from "next";
 import { AnalysisCardRoot } from "@/components/ui/analysis-card";
 import { Button } from "@/components/ui/button";
-import {
-	CodeBlockBody,
-	CodeBlockCode,
-	CodeBlockHeader,
-	CodeBlockLineNumbers,
-	CodeBlockRoot,
-} from "@/components/ui/code-block";
+import { CodeBlockHeader, CodeBlockRoot } from "@/components/ui/code-block";
+import { CodeBlockWithLineNumbers } from "@/components/ui/code-block-with-line-numbers";
 import { DiffLineRoot, type DiffLineVariant } from "@/components/ui/diff-line";
 import { ScoreRingRoot } from "@/components/ui/score-ring";
 import { StatusBadgeRoot } from "@/components/ui/status-badge";
@@ -149,22 +144,12 @@ export default function ResultPage() {
 								</span>
 							</div>
 						</CodeBlockHeader>
-						<CodeBlockBody className="flex-row">
-							<CodeBlockLineNumbers
-								lines={staticRoastData.code.length}
-								className="border-r border-border-primary bg-surface"
+						<div className="bg-input">
+							<CodeBlockWithLineNumbers
+								code={staticRoastData.code.join("\n")}
+								language={staticRoastData.language}
 							/>
-							<CodeBlockCode className="px-4 py-4">
-								{staticRoastData.code.map((line, index) => (
-									<code
-										key={index}
-										className="block font-mono text-xs leading-[1.5] text-foreground"
-									>
-										{line}
-									</code>
-								))}
-							</CodeBlockCode>
-						</CodeBlockBody>
+						</div>
 					</CodeBlockRoot>
 				</section>
 
@@ -245,7 +230,7 @@ export default function ResultPage() {
 								main.js
 							</span>
 						</CodeBlockHeader>
-						<CodeBlockBody>
+						<div className="flex flex-col bg-input">
 							{staticRoastData.diff.map((line, index) => (
 								<DiffLineRoot
 									key={index}
@@ -262,7 +247,7 @@ export default function ResultPage() {
 									<span className="flex-1">{line.content}</span>
 								</DiffLineRoot>
 							))}
-						</CodeBlockBody>
+						</div>
 					</CodeBlockRoot>
 				</section>
 			</div>
