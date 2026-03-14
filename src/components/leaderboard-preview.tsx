@@ -32,7 +32,7 @@ const leaderboardData = [
 
 export function LeaderboardPreview() {
 	return (
-		<section className="flex w-full max-w-4xl flex-col gap-6">
+		<section className="flex w-full max-w-4xl flex-col gap-6 mt-10">
 			<div className="flex items-center justify-between">
 				<span className="font-mono text-lg font-semibold text-foreground">
 					// top_ranked_shame
