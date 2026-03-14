@@ -91,7 +91,7 @@ export default function ResultPage() {
 	const goodIssues = issues.filter((i) => i.severity === "good");
 
 	return (
-		<main className="flex min-h-[calc(100vh-3.5rem)] flex-col bg-background px-20 pt-10">
+		<main className="flex min-h-[calc(100vh-3.5rem)] flex-col bg-background px-20 py-10">
 			<div className="mx-auto flex w-full max-w-6xl flex-col gap-10">
 				<section className="flex items-center gap-12">
 					<ScoreRingRoot
@@ -138,7 +138,7 @@ export default function ResultPage() {
 						</span>
 					</div>
 
-					<CodeBlockRoot className="h-[424px]">
+					<CodeBlockRoot>
 						<CodeBlockHeader className="border-border-primary">
 							<div className="ml-auto flex items-center gap-3">
 								<span className="font-mono text-xs text-text-secondary">
@@ -149,7 +149,7 @@ export default function ResultPage() {
 								</span>
 							</div>
 						</CodeBlockHeader>
-						<CodeBlockBody className="bg-input">
+						<CodeBlockBody className="flex-row">
 							<CodeBlockLineNumbers
 								lines={staticRoastData.code.length}
 								className="border-r border-border-primary bg-surface"
@@ -239,13 +239,13 @@ export default function ResultPage() {
 						</span>
 					</div>
 
-					<CodeBlockRoot className="min-h-[320px]">
+					<CodeBlockRoot>
 						<CodeBlockHeader className="border-border-primary">
 							<span className="ml-auto font-mono text-xs text-text-tertiary">
 								main.js
 							</span>
 						</CodeBlockHeader>
-						<CodeBlockBody className="bg-input">
+						<CodeBlockBody>
 							{staticRoastData.diff.map((line, index) => (
 								<DiffLineRoot
 									key={index}

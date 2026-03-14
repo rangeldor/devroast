@@ -104,7 +104,10 @@ const CodeBlockBody = forwardRef<HTMLDivElement, CodeBlockBodyProps>(
 		return (
 			<div
 				ref={ref}
-				className={twMerge("flex font-mono text-sm bg-surface", className)}
+				className={twMerge(
+					"flex flex-col font-mono text-sm bg-surface",
+					className,
+				)}
 				{...props}
 			>
 				{children}
