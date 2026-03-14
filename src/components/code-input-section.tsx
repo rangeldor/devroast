@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
-
+import { Suspense, useState } from "react";
+import { MetricsDisplay } from "@/components/metrics-display";
+import { MetricsSkeleton } from "@/components/metrics-skeleton";
 import { Button } from "@/components/ui/button";
 import {
 	CodeEditor,
@@ -9,9 +10,16 @@ import {
 	type Theme,
 } from "@/components/ui/code-editor";
 import { ToggleRoot } from "@/components/ui/toggle";
+import { trpc } from "@/lib/trpc/client";
 
 const sampleCode = `// paste your code here...`;
 const MAX_CODE_LENGTH = 2000;
+
+function MetricsSection() {
+	const { data } = trpc.metrics.getStats.useQuery();
+	if (!data) return <MetricsSkeleton />;
+	return <MetricsDisplay data={data} />;
+}
 
 export function CodeInputSection() {
 	const [roastMode, setRoastMode] = useState(true);
@@ -64,13 +72,9 @@ export function CodeInputSection() {
 			</div>
 
 			<div className="flex items-center justify-center gap-6">
-				<span className="font-mono text-xs text-muted-foreground">
-					2,847 codes roasted
-				</span>
-				<span className="text-muted-foreground">·</span>
-				<span className="font-mono text-xs text-muted-foreground">
-					avg score: 4.2/10
-				</span>
+				<Suspense fallback={<MetricsSkeleton />}>
+					<MetricsSection />
+				</Suspense>
 			</div>
 		</section>
 	);

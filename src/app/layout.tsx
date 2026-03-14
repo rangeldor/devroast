@@ -11,6 +11,7 @@ import {
 
 import "./globals.css";
 import Link from "next/link";
+import { Providers } from "./providers";
 
 const jetbrainsMono = JetBrains_Mono({
 	variable: "--font-jetbrains-mono",
@@ -26,17 +27,19 @@ export default function RootLayout({
 	return (
 		<html lang="pt-BR" className={`${jetbrainsMono.variable} dark`}>
 			<body className="min-h-screen antialiased bg-background text-foreground">
-				<NavbarRoot>
-					<NavbarLogo>
-						<NavbarLogoPrompt>&gt;</NavbarLogoPrompt>
-						<Link href={"/"}>
-							<NavbarLogoText>devroast</NavbarLogoText>
-						</Link>
-					</NavbarLogo>
-					<NavbarSpacer />
-					<NavbarLink href="/leaderboard">leaderboard</NavbarLink>
-				</NavbarRoot>
-				{children}
+				<Providers>
+					<NavbarRoot>
+						<NavbarLogo>
+							<NavbarLogoPrompt>&gt;</NavbarLogoPrompt>
+							<Link href={"/"}>
+								<NavbarLogoText>devroast</NavbarLogoText>
+							</Link>
+						</NavbarLogo>
+						<NavbarSpacer />
+						<NavbarLink href="/leaderboard">leaderboard</NavbarLink>
+					</NavbarRoot>
+					{children}
+				</Providers>
 			</body>
 		</html>
 	);
