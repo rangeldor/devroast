@@ -15,6 +15,7 @@ import { bracketMatching, indentOnInput } from "@codemirror/language";
 import { EditorView } from "@codemirror/view";
 import CodeMirror from "@uiw/react-codemirror";
 import { useCallback } from "react";
+import { twMerge } from "tailwind-merge";
 
 type Language =
 	| "javascript"
@@ -45,6 +46,7 @@ interface CodeEditorProps {
 	onLanguageChange?: (language: Language) => void;
 	onThemeChange?: (theme: Theme) => void;
 	placeholder?: string;
+	maxLength?: number;
 }
 
 const languageExtensions: Record<
@@ -190,12 +192,16 @@ export function CodeEditor({
 	onLanguageChange,
 	onThemeChange,
 	placeholder,
+	maxLength = 2000,
 }: CodeEditorProps) {
+	const charCount = value.length;
+	const isOverLimit = charCount > maxLength;
 	const handleChange = useCallback(
 		(val: string) => {
-			onChange?.(val);
+			const trimmedValue = val.slice(0, maxLength);
+			onChange?.(trimmedValue);
 		},
-		[onChange],
+		[onChange, maxLength],
 	);
 
 	const currentTheme = createTheme(theme);
@@ -263,6 +269,16 @@ export function CodeEditor({
 					}}
 					className="h-full"
 				/>
+			</div>
+			<div className="flex items-center justify-end border-t border-border-primary bg-background px-3 py-1.5">
+				<span
+					className={twMerge(
+						"font-mono text-xs",
+						isOverLimit ? "text-red-accent" : "text-muted-foreground",
+					)}
+				>
+					{charCount} / {maxLength}
+				</span>
 			</div>
 		</div>
 	);

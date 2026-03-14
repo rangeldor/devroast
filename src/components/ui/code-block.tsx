@@ -9,7 +9,7 @@ type CodeBlockRootProps = ComponentProps<"div"> &
 	};
 
 const CodeBlockRoot = forwardRef<HTMLDivElement, CodeBlockRootProps>(
-	({ className, height, children, ...props }, ref) => {
+	({ className, height = 'auto', children, ...props }, ref) => {
 		return (
 			<div
 				ref={ref}
@@ -34,7 +34,7 @@ const CodeBlockHeader = forwardRef<HTMLDivElement, CodeBlockHeaderProps>(
 			<div
 				ref={ref}
 				className={twMerge(
-					"flex h-10 items-center gap-3 border-b border-border px-4",
+					"flex h-10 items-center gap-3 border-b border-border bg-surface px-4",
 					className,
 				)}
 				{...props}
@@ -104,7 +104,7 @@ const CodeBlockBody = forwardRef<HTMLDivElement, CodeBlockBodyProps>(
 		return (
 			<div
 				ref={ref}
-				className={twMerge("flex font-mono text-sm", className)}
+				className={twMerge("flex font-mono text-sm bg-surface", className)}
 				{...props}
 			>
 				{children}

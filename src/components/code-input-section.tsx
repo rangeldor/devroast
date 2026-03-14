@@ -11,12 +11,15 @@ import {
 import { ToggleRoot } from "@/components/ui/toggle";
 
 const sampleCode = `// paste your code here...`;
+const MAX_CODE_LENGTH = 2000;
 
 export function CodeInputSection() {
 	const [roastMode, setRoastMode] = useState(true);
 	const [code, setCode] = useState(sampleCode);
 	const [language, setLanguage] = useState<Language>("javascript");
 	const [theme, setTheme] = useState<Theme>("dark");
+
+	const isOverLimit = code.length > MAX_CODE_LENGTH;
 
 	return (
 		<section className="flex w-full max-w-4xl flex-col gap-8">
@@ -42,6 +45,7 @@ export function CodeInputSection() {
 					onLanguageChange={setLanguage}
 					onThemeChange={setTheme}
 					placeholder="// paste your code here..."
+					maxLength={MAX_CODE_LENGTH}
 				/>
 			</div>
 
@@ -54,7 +58,7 @@ export function CodeInputSection() {
 						// maximum sarcasm enabled
 					</span>
 				</div>
-				<Button size="lg" variant="primary">
+				<Button size="lg" variant="primary" disabled={isOverLimit}>
 					$ roast_my_code
 				</Button>
 			</div>

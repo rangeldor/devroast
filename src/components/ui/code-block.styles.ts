@@ -1,12 +1,13 @@
 import { tv, type VariantProps } from "tailwind-variants";
 
 const codeBlock = tv({
-	base: "w-full overflow-hidden rounded-lg border border-border-primary bg-input font-mono text-sm",
+	base: "w-full overflow-hidden rounded-md border border-border-primary font-mono text-sm",
 	variants: {
 		height: {
 			sm: "h-40",
 			md: "h-60",
 			lg: "h-[360px]",
+			auto: "h-auto",
 		},
 	},
 	defaultVariants: {
