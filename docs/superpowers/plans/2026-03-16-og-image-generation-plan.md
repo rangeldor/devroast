@@ -94,8 +94,12 @@ curl -L -o src/fonts/JetBrainsMono-Bold.woff2 "https://github.com/JetBrains/JetB
 - [ ] **Step 4: Download Geist Regular**
 
 ```bash
-curl -L -o src/fonts/Geist-Regular.woff2 "https://github.com/vercel/geist-font/raw/main/fonts Geist%20Variable.woff2" -o src/fonts/Geist-Regular.woff2
-# Note: Geist is variable font, might need to use specific version
+# Geist is a variable font, download the static version from a known working source
+# Option 1: Use Google Fonts (Inter as fallback)
+curl -L -o src/fonts/Geist-Regular.woff2 "https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiJ-Ek-_EeA.woff2"
+
+# Or Option 2: Use Vercel's Geist from their CDN
+# curl -L -o src/fonts/Geist-Regular.woff2 "https://geist.style/fonts/Geist/Geist-Regular.woff2"
 ```
 
 - [ ] **Step 5: Verify files exist**
@@ -288,7 +292,7 @@ git commit -m "feat: create OgImage Takumi component"
 - [ ] **Step 1: Create directory structure**
 
 ```bash
-mkdir -p src/app/result/\[id\]/opengraph-image
+mkdir -p src/app/result/[id]/opengraph-image
 ```
 
 - [ ] **Step 2: Create route.tsx**
@@ -383,7 +387,7 @@ npm run build 2>&1 | head -50
 - [ ] **Step 4: Commit**
 
 ```bash
-git add src/app/result/\[id\]/opengraph-image/route.tsx
+git add src/app/result/[id]/opengraph-image/route.tsx
 git commit -m "feat: add OG image route handler for roast results"
 ```
 
@@ -401,7 +405,12 @@ npm run dev
 
 - [ ] **Step 2: Get a valid roast result ID from database**
 
-Check the seed data or create a new roast to get an ID.
+```bash
+# Query database for an existing roast result ID
+psql -U devroast -d devroast -t -c "SELECT id FROM roast_results LIMIT 1;"
+```
+
+If no results, create a new roast via the UI or API to generate a test ID.
 
 - [ ] **Step 3: Test OG image endpoint**
 
