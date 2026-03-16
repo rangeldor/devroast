@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { cacheLife } from "next/cache";
 
 import { LeaderboardRow } from "@/components/leaderboard-row";
 import { renderCodeHighlight } from "@/db/queries/leaderboard";
@@ -10,10 +9,9 @@ export const metadata: Metadata = {
 	description: "The most roasted code on the internet",
 };
 
-export default async function LeaderboardPage() {
-	"use cache";
-	cacheLife("hours");
+export const revalidate = 3600;
 
+export default async function LeaderboardPage() {
 	const data = await serverCaller.metrics.getFullLeaderboard();
 
 	const entriesWithRank = await Promise.all(

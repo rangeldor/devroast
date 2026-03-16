@@ -1,5 +1,4 @@
 import { asc, avg, count, desc, sql } from "drizzle-orm";
-import { cacheLife } from "next/cache";
 import { codeToHtml } from "shiki";
 
 import { db } from "../index";
@@ -52,9 +51,6 @@ export interface ShameLeaderboardData {
 }
 
 export async function getShameLeaderboardWithMetrics(): Promise<ShameLeaderboardData> {
-	"use cache";
-	cacheLife("hours");
-
 	const entries = await getLeaderboard(3, 0);
 
 	const [stats] = await db

@@ -5,6 +5,8 @@ import { ShameLeaderboard } from "@/components/shame-leaderboard";
 import { ShameLeaderboardSkeleton } from "@/components/shame-leaderboard-skeleton";
 import { getShameLeaderboardWithMetrics } from "@/db/queries/leaderboard";
 
+export const revalidate = 3600;
+
 export default async function Home() {
 	const data = await getShameLeaderboardWithMetrics();
 
