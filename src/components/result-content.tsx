@@ -1,5 +1,6 @@
 "use client";
 
+import { CodeHighlight } from "@/components/code-highlight";
 import { AnalysisCardRoot } from "@/components/ui/analysis-card";
 import { CodeBlockHeader, CodeBlockRoot } from "@/components/ui/code-block";
 import { DiffLineRoot } from "@/components/ui/diff-line";
@@ -110,9 +111,9 @@ export function ResultView({
 									<span key={i}>{i + 1}</span>
 								))}
 							</div>
-							<pre className="flex-1 overflow-x-auto px-4 py-4 font-mono text-xs text-foreground">
-								<code>{code}</code>
-							</pre>
+							<div className="flex-1 overflow-x-auto px-4 py-4">
+								<CodeHighlight code={code} language={language} />
+							</div>
 						</div>
 					</CodeBlockRoot>
 				</section>
