@@ -1,6 +1,5 @@
 import Link from "next/link";
 import type { ShameLeaderboardData } from "@/db/queries/leaderboard";
-import { renderCodeHighlight } from "@/db/queries/leaderboard";
 import { LeaderboardRow } from "./leaderboard-row";
 import { Button } from "./ui/button";
 
@@ -9,24 +8,10 @@ interface ShameLeaderboardProps {
 }
 
 export async function ShameLeaderboard({ data }: ShameLeaderboardProps) {
-	const entriesWithRank = await Promise.all(
-		data.entries.map(async (entry, index) => {
-			const codeLines = entry.codePreview.split("\n");
-			const previewCode = codeLines.slice(0, 3).join("\n");
-
-			const [highlightedCode, highlightedPreview] = await Promise.all([
-				renderCodeHighlight(entry.codePreview, entry.language),
-				renderCodeHighlight(previewCode, entry.language),
-			]);
-
-			return {
-				...entry,
-				rank: `#${index + 1}`,
-				highlightedCode,
-				highlightedPreview,
-			};
-		}),
-	);
+	const entriesWithRank = data.entries.map((entry, index) => ({
+		...entry,
+		rank: `#${index + 1}`,
+	}));
 
 	return (
 		<section className="flex w-full max-w-4xl flex-col gap-6 mt-10">
@@ -67,12 +52,7 @@ export async function ShameLeaderboard({ data }: ShameLeaderboardProps) {
 
 					<div className="flex flex-col">
 						{entriesWithRank.map((item) => (
-							<LeaderboardRow
-								key={item.id}
-								entry={item}
-								highlightedCode={item.highlightedCode}
-								highlightedPreview={item.highlightedPreview}
-							/>
+							<LeaderboardRow key={item.id} entry={item} />
 						))}
 					</div>
 				</div>

@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 
 import { LeaderboardRow } from "@/components/leaderboard-row";
-import { renderCodeHighlight } from "@/db/queries/leaderboard";
 import { serverCaller } from "@/lib/trpc/server";
 
 export const metadata: Metadata = {
@@ -12,24 +11,10 @@ export const metadata: Metadata = {
 export default async function LeaderboardPage() {
 	const data = await serverCaller.metrics.getFullLeaderboard();
 
-	const entriesWithRank = await Promise.all(
-		data.entries.map(async (entry, index) => {
-			const codeLines = entry.codePreview.split("\n");
-			const previewCode = codeLines.slice(0, 3).join("\n");
-
-			const [highlightedCode, highlightedPreview] = await Promise.all([
-				renderCodeHighlight(entry.codePreview, entry.language),
-				renderCodeHighlight(previewCode, entry.language),
-			]);
-
-			return {
-				...entry,
-				rank: `#${index + 1}`,
-				highlightedCode,
-				highlightedPreview,
-			};
-		}),
-	);
+	const entriesWithRank = data.entries.map((entry, index) => ({
+		...entry,
+		rank: `#${index + 1}`,
+	}));
 
 	return (
 		<main className="flex min-h-[calc(100vh-3.5rem)] flex-col bg-background px-20 py-10">
@@ -79,12 +64,7 @@ export default async function LeaderboardPage() {
 
 							<div className="flex flex-col">
 								{entriesWithRank.map((entry) => (
-									<LeaderboardRow
-										key={entry.id}
-										entry={entry}
-										highlightedCode={entry.highlightedCode}
-										highlightedPreview={entry.highlightedPreview}
-									/>
+									<LeaderboardRow key={entry.id} entry={entry} />
 								))}
 							</div>
 						</div>

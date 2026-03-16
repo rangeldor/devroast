@@ -3,6 +3,7 @@
 import { Collapsible } from "@base-ui/react/collapsible";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { CodeHighlight } from "./code-highlight";
 
 interface LeaderboardRowProps {
 	entry: {
@@ -12,8 +13,6 @@ interface LeaderboardRowProps {
 		score: number;
 		rank: string;
 	};
-	highlightedCode: string;
-	highlightedPreview: string;
 }
 
 function ChevronIcon({ isExpanded }: { isExpanded: boolean }) {
@@ -34,14 +33,11 @@ function ChevronIcon({ isExpanded }: { isExpanded: boolean }) {
 	);
 }
 
-export function LeaderboardRow({
-	entry,
-	highlightedCode,
-	highlightedPreview,
-}: LeaderboardRowProps) {
+export function LeaderboardRow({ entry }: LeaderboardRowProps) {
 	const [isExpanded, setIsExpanded] = useState(false);
 	const codeLines = entry.codePreview.split("\n");
 	const hasMoreLines = codeLines.length > 3;
+	const previewCode = codeLines.slice(0, 3).join("\n");
 
 	return (
 		<Collapsible.Root open={isExpanded} onOpenChange={setIsExpanded}>
@@ -55,7 +51,6 @@ export function LeaderboardRow({
 					</div>
 					<div className="relative flex min-w-0 flex-1 items-start overflow-hidden px-2 py-4">
 						<div
-							className="shiki vesper-dark font-mono text-xs"
 							suppressHydrationWarning
 							style={{
 								whiteSpace: "pre",
@@ -64,10 +59,12 @@ export function LeaderboardRow({
 								height: isExpanded ? "auto" : "66px",
 								transition: "height 300ms ease-out",
 							}}
-							dangerouslySetInnerHTML={{
-								__html: isExpanded ? highlightedCode : highlightedPreview,
-							}}
-						/>
+						>
+							<CodeHighlight
+								code={isExpanded ? entry.codePreview : previewCode}
+								language={entry.language}
+							/>
+						</div>
 					</div>
 					<div className="flex w-[100px] shrink-0 items-start px-2 py-4 font-mono text-xs text-muted-foreground">
 						{entry.language}
