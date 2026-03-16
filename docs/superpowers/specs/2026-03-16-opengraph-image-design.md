@@ -201,7 +201,12 @@ export async function GET(
     );
   } catch (error) {
     console.error("OG image generation error:", error);
-    return new Response("Internal Error", { status: 500 });
+    return new ImageResponse(
+      <div style={{ backgroundColor: "#0A0A0A", color: "#EF4444", display: "flex", alignItems: "center", justifyContent: "center", height: "100%", fontSize: 32 }}>
+        Error Generating Roast
+      </div>,
+      { width: 1200, height: 630 }
+    );
   }
 }
 ```
@@ -214,20 +219,48 @@ Baixar as seguintes fontes para `src/fonts/`:
 - JetBrains Mono Bold: mesma fonte, weight 700
 - Geist Regular: https://github.com/vercel/geist-font
 
-Carregar no componente:
+Criar utilitário para carregar fontes:
 ```tsx
-const fonts = [
-  {
-    name: "JetBrains Mono",
-    data: await fetch("https://.../JetBrainsMono-Regular.woff2").then(r => r.arrayBuffer()),
-    weight: 400,
-    style: "normal",
-  },
-  // ... outros pesos
-];
+// src/lib/fonts.ts
+import JetBrainsMonoRegular from "@/fonts/JetBrainsMono-Regular.woff2";
+import JetBrainsMonoBold from "@/fonts/JetBrainsMono-Bold.woff2";
+import GeistRegular from "@/fonts/Geist-Regular.woff2";
 
-// Passar fonts no ImageResponse
-new ImageResponse(<OgImage ... />, { width: 1200, height: 630, fonts });
+export async function getOgFonts() {
+  return [
+    {
+      name: "JetBrains Mono",
+      data: JetBrainsMonoRegular,
+      weight: 400,
+      style: "normal",
+    },
+    {
+      name: "JetBrains Mono",
+      data: JetBrainsMonoBold,
+      weight: 700,
+      style: "normal",
+    },
+    {
+      name: "Geist",
+      data: GeistRegular,
+      weight: 400,
+      style: "normal",
+    },
+  ];
+}
+```
+
+Atualizar o route handler para usar as fontes:
+```tsx
+import { getOgFonts } from "@/lib/fonts";
+
+// Na função GET:
+const fonts = await getOgFonts();
+
+return new ImageResponse(
+  <OgImage ... />,
+  { width: 1200, height: 630, format: "webp", emoji: "twemoji", fonts }
+);
 ```
 
 ## Testing
@@ -242,5 +275,5 @@ new ImageResponse(<OgImage ... />, { width: 1200, height: 630, fonts });
 | Scenario | Behavior |
 |----------|----------|
 | Result not found | Return "Roast Not Found" image |
-| Database error | Return 500 error |
+| Database error | Return "Error Generating Roast" image |
 | Font load failure | Use system fallback |
