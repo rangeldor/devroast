@@ -53,7 +53,7 @@ export default async function LeaderboardPage() {
 						</span>
 						<span className="font-mono text-xs text-text-tertiary">·</span>
 						<span className="font-mono text-xs text-text-tertiary">
-							avg score: {data.avgScore.toFixed(1)}/10
+							avg score: {data.avgScore}/10
 						</span>
 					</div>
 				</section>

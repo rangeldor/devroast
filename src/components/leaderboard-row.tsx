@@ -56,6 +56,7 @@ export function LeaderboardRow({
 					<div className="relative flex min-w-0 flex-1 items-start overflow-hidden px-2 py-4">
 						<div
 							className="shiki vesper-dark font-mono text-xs"
+							suppressHydrationWarning
 							style={{
 								whiteSpace: "pre",
 								overflowX: "auto",
