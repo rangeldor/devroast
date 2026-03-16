@@ -9,8 +9,6 @@ import { ScoreRingRoot } from "@/components/ui/score-ring";
 import { StatusBadgeRoot } from "@/components/ui/status-badge";
 import { serverCaller } from "@/lib/trpc/server";
 
-export const dynamic = "force-dynamic";
-
 export const metadata: Metadata = {
 	title: "Roast Results | DevRoast",
 	description: "Your code has been roasted",
