@@ -229,7 +229,17 @@ const issueTemplates = [
 
 function generateCode(language: string): string {
 	const templates = codeTemplates[language] || codeTemplates.javascript;
-	return faker.helpers.arrayElement(templates);
+	const selectedTemplate = faker.helpers.arrayElement(templates);
+
+	const additionalLines = faker.number.int({ min: 2, max: 5 });
+	const lines = [selectedTemplate];
+
+	for (let i = 0; i < additionalLines; i++) {
+		const randomTemplate = faker.helpers.arrayElement(templates);
+		lines.push(randomTemplate);
+	}
+
+	return lines.join("\n");
 }
 
 function generateIssues(): Array<{
@@ -343,7 +353,7 @@ export async function seed() {
 
 			submissions.push({
 				code,
-				codePreview: code.slice(0, 200),
+				codePreview: code,
 				language: sql`${language}::language`,
 				ipHash: faker.string.alphanumeric(8),
 			});

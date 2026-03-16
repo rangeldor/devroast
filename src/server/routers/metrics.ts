@@ -1,3 +1,4 @@
+import { getShameLeaderboardWithMetrics } from "@/db/queries/leaderboard";
 import { publicProcedure, router } from "../index";
 
 const mockMetrics = {
@@ -9,6 +10,10 @@ export const metricsRouter = router({
 	getStats: publicProcedure.query(async () => {
 		await new Promise((resolve) => setTimeout(resolve, 500));
 		return mockMetrics;
+	}),
+	getShameLeaderboard: publicProcedure.query(async () => {
+		await new Promise((resolve) => setTimeout(resolve, 500));
+		return getShameLeaderboardWithMetrics();
 	}),
 });
 
