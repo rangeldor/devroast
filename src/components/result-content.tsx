@@ -1,22 +1,18 @@
 "use client";
 
-import { use } from "react";
 import { AnalysisCardRoot } from "@/components/ui/analysis-card";
 import { CodeBlockHeader, CodeBlockRoot } from "@/components/ui/code-block";
-import { CodeBlockWithLineNumbers } from "@/components/ui/code-block-with-line-numbers";
 import { DiffLineRoot } from "@/components/ui/diff-line";
 import { ScoreRingRoot } from "@/components/ui/score-ring";
 import { StatusBadgeRoot } from "@/components/ui/status-badge";
 
-interface ResultData {
+interface ResultViewProps {
 	id: string;
 	score: number;
 	roastText: string;
 	roastMode: string;
-	submission: {
-		code: string;
-		language: string;
-	};
+	code: string;
+	language: string;
 	issues: Array<{
 		line: number | null;
 		severity: string;
@@ -39,49 +35,39 @@ function getVerdict(score: number): string {
 }
 
 export function ResultView({
-	resultPromise,
-}: {
-	resultPromise: Promise<ResultData | null>;
-}) {
-	const result = use(resultPromise);
-
-	if (!result || !result.submission) {
-		return (
-			<div className="flex min-h-[calc(100vh-3.5rem)] items-center justify-center">
-				<span className="font-mono text-muted-foreground">
-					Result not found
-				</span>
-			</div>
-		);
-	}
-
-	const issues = result.issues || [];
+	score,
+	roastText,
+	roastMode,
+	code,
+	language,
+	issues,
+	improvements,
+}: ResultViewProps) {
 	const criticalIssues = issues.filter((i) => i.severity === "high");
 	const goodIssues = issues.filter(
 		(i) => i.severity === "low" || i.severity === "medium",
 	);
 
-	const code = result.submission.code;
 	const codeLines = code.split("\n");
 
 	return (
 		<main className="flex min-h-[calc(100vh-3.5rem)] flex-col bg-background px-20 py-10">
 			<div className="mx-auto flex w-full max-w-6xl flex-col gap-10">
 				<section className="flex items-center gap-12">
-					<ScoreRingRoot score={result.score} maxScore={10} />
+					<ScoreRingRoot score={score} maxScore={10} />
 
 					<div className="flex flex-1 flex-col gap-4">
 						<StatusBadgeRoot variant="verdict">
-							verdict: {getVerdict(result.score)}
+							verdict: {getVerdict(score)}
 						</StatusBadgeRoot>
 
 						<p className="font-mono text-xl leading-normal text-foreground">
-							{result.roastText}
+							{roastText}
 						</p>
 
 						<div className="flex items-center gap-4">
 							<span className="font-mono text-xs text-text-tertiary">
-								lang: {result.submission.language}
+								lang: {language}
 							</span>
 							<span className="text-text-tertiary">·</span>
 							<span className="font-mono text-xs text-text-tertiary">
@@ -89,7 +75,7 @@ export function ResultView({
 							</span>
 							<span className="text-text-tertiary">·</span>
 							<span className="font-mono text-xs text-text-tertiary">
-								mode: {result.roastMode}
+								mode: {roastMode}
 							</span>
 						</div>
 					</div>
@@ -111,17 +97,23 @@ export function ResultView({
 						<CodeBlockHeader className="border-border-primary">
 							<div className="ml-auto flex items-center gap-3">
 								<span className="font-mono text-xs text-text-secondary">
-									{result.submission.language}
+									{language}
 								</span>
 								<span className="font-mono text-xs text-text-tertiary">
 									{codeLines.length} lines
 								</span>
 							</div>
 						</CodeBlockHeader>
-						<CodeBlockWithLineNumbers
-							code={code}
-							language={result.submission.language}
-						/>
+						<div className="flex">
+							<div className="flex flex-col gap-1 border-r border-border-primary bg-surface px-3 py-4 text-right font-mono text-xs text-text-tertiary">
+								{codeLines.map((_, i) => (
+									<span key={i}>{i + 1}</span>
+								))}
+							</div>
+							<pre className="flex-1 overflow-x-auto px-4 py-4 font-mono text-xs text-foreground">
+								<code>{code}</code>
+							</pre>
+						</div>
 					</CodeBlockRoot>
 				</section>
 
@@ -190,7 +182,7 @@ export function ResultView({
 					</div>
 				</section>
 
-				{result.improvements && result.improvements.length > 0 && (
+				{improvements && improvements.length > 0 && (
 					<>
 						<div className="h-px w-full bg-border-primary" />
 
@@ -207,12 +199,11 @@ export function ResultView({
 							<CodeBlockRoot>
 								<CodeBlockHeader className="border-border-primary">
 									<span className="ml-auto font-mono text-xs text-text-tertiary">
-										main.
-										{result.submission.language === "typescript" ? "ts" : "js"}
+										main.{language === "typescript" ? "ts" : "js"}
 									</span>
 								</CodeBlockHeader>
 								<div className="flex flex-col">
-									{result.improvements.map((improvement, index) => (
+									{improvements.map((improvement, index) => (
 										<DiffLineRoot
 											key={index}
 											variant="removed"
@@ -222,7 +213,7 @@ export function ResultView({
 											<span className="flex-1">{improvement.originalCode}</span>
 										</DiffLineRoot>
 									))}
-									{result.improvements.map((improvement, index) => (
+									{improvements.map((improvement, index) => (
 										<DiffLineRoot
 											key={`added-${index}`}
 											variant="added"
