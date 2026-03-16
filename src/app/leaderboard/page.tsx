@@ -1,4 +1,7 @@
 import type { Metadata } from "next";
+
+export const revalidate = 3600;
+
 import { LeaderboardRow } from "@/components/leaderboard-row";
 import { renderCodeHighlight } from "@/db/queries/leaderboard";
 import { serverCaller } from "@/lib/trpc/server";

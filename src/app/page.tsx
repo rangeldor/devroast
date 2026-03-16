@@ -2,6 +2,8 @@ import { CodeInputSection } from "@/components/code-input-section";
 import { ShameLeaderboard } from "@/components/shame-leaderboard";
 import { getShameLeaderboardWithMetrics } from "@/db/queries/leaderboard";
 
+export const revalidate = 3600;
+
 export default async function Home() {
 	const data = await getShameLeaderboardWithMetrics();
 
