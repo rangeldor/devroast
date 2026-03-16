@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { Suspense, useState } from "react";
 import { MetricsDisplay } from "@/components/metrics-display";
 import { MetricsSkeleton } from "@/components/metrics-skeleton";
@@ -22,12 +23,29 @@ function MetricsSection() {
 }
 
 export function CodeInputSection() {
+	const router = useRouter();
 	const [roastMode, setRoastMode] = useState(true);
 	const [code, setCode] = useState(sampleCode);
 	const [language, setLanguage] = useState<Language>("javascript");
 	const [theme, setTheme] = useState<Theme>("dark");
 
 	const isOverLimit = code.length > MAX_CODE_LENGTH;
+
+	const createRoast = trpc.roast.create.useMutation({
+		onSuccess: (data) => {
+			router.push(`/result/${data.id}`);
+		},
+	});
+
+	const handleSubmit = () => {
+		if (code.trim() && code.trim() !== sampleCode) {
+			createRoast.mutate({
+				code,
+				language,
+				roastMode: roastMode ? "full_roast" : "subtle",
+			});
+		}
+	};
 
 	return (
 		<section className="flex w-full max-w-4xl flex-col gap-8">
@@ -66,8 +84,13 @@ export function CodeInputSection() {
 						// maximum sarcasm enabled
 					</span>
 				</div>
-				<Button size="lg" variant="primary" disabled={isOverLimit}>
-					$ roast_my_code
+				<Button
+					size="lg"
+					variant="primary"
+					disabled={isOverLimit || createRoast.isPending}
+					onClick={handleSubmit}
+				>
+					{createRoast.isPending ? "$ roasting..." : "$ roast_my_code"}
 				</Button>
 			</div>
 

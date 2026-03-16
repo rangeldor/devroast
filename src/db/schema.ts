@@ -21,6 +21,7 @@ export const languageEnum = pgEnum("language", [
 	"java",
 	"csharp",
 	"cpp",
+	"c",
 	"ruby",
 	"php",
 	"swift",
@@ -32,6 +33,7 @@ export const languageEnum = pgEnum("language", [
 	"yaml",
 	"markdown",
 	"bash",
+	"shell",
 	"other",
 ]);
 
