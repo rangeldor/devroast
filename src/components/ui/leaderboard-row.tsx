@@ -12,7 +12,7 @@ const LeaderboardRowRoot = forwardRef<HTMLDivElement, LeaderboardRowRootProps>(
 			<div
 				ref={ref}
 				className={twMerge(
-					"flex items-center gap-6 border-b border-border px-5 py-4",
+					"flex items-center border-b border-border px-5 py-4",
 					className,
 				)}
 				{...props}

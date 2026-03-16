@@ -24,6 +24,7 @@ const ToggleRoot = forwardRef<HTMLButtonElement, ToggleRootProps>(
 						checked ? "bg-green-primary" : "bg-zinc-900",
 					)}
 					{...props}
+					suppressHydrationWarning
 				>
 					<Switch.Thumb
 						className={twMerge(

@@ -6,6 +6,8 @@
 - Biome (lint/format)
 - base-ui (interactive components)
 - Shiki (syntax highlighting)
+- tRPC v11 + TanStack React Query v5
+- Drizzle ORM
 
 ## Global Patterns
 
@@ -29,3 +31,9 @@ npm run dev    # Development
 npm run lint   # Lint check
 npm run format # Format code
 ```
+
+## Documentation
+
+- [tRPC Patterns](specs/AGENTS-tRPC.md)
+- [Drizzle Patterns](specs/AGENTS-drizzle.md) (when applicable)
+- [Components Patterns](src/components/ui/AGENTS.md)
