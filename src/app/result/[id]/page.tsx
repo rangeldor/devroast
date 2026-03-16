@@ -4,13 +4,19 @@ import { Suspense } from "react";
 import { ResultView } from "@/components/result-content";
 import { serverCaller } from "@/lib/trpc/server";
 
+async function getRoast(id: string) {
+	"use cache";
+	cacheLife("minutes");
+	return serverCaller.roast.getById({ id });
+}
+
 export async function generateMetadata({
 	params,
 }: {
 	params: Promise<{ id: string }>;
 }): Promise<Metadata> {
 	const { id } = await params;
-	const result = await serverCaller.roast.getById({ id });
+	const result = await getRoast(id);
 
 	if (!result) {
 		return {
@@ -60,11 +66,8 @@ export default function ResultPage({
 }
 
 async function ResultContent({ params }: { params: Promise<{ id: string }> }) {
-	"use cache";
-	cacheLife("minutes");
-
 	const { id } = await params;
-	const result = await serverCaller.roast.getById({ id });
+	const result = await getRoast(id);
 
 	if (!result || !result.submission) {
 		return (
