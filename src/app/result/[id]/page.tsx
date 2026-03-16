@@ -28,11 +28,10 @@ export default function ResultPage({
 }
 
 async function ResultContent({ params }: { params: Promise<{ id: string }> }) {
-	const { id } = await params;
-
-	("use cache");
+	"use cache";
 	cacheLife("minutes");
 
+	const { id } = await params;
 	const result = await serverCaller.roast.getById({ id });
 
 	if (!result || !result.submission) {
