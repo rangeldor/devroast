@@ -94,12 +94,12 @@ curl -L -o src/fonts/JetBrainsMono-Bold.woff2 "https://github.com/JetBrains/JetB
 - [ ] **Step 4: Download Geist Regular**
 
 ```bash
-# Geist is a variable font, download the static version from a known working source
-# Option 1: Use Google Fonts (Inter as fallback)
-curl -L -o src/fonts/Geist-Regular.woff2 "https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiJ-Ek-_EeA.woff2"
+# Geist is a variable font, use Inter as a fallback (similar geometric sans)
+# If you have access to Geist, use the Vercel CDN:
+curl -L -o src/fonts/Geist-Regular.woff2 "https://cdn.jsdelivr.net/gh/vercel/geist-font@latest/fonts/Geist/Geist-Regular.woff2"
 
-# Or Option 2: Use Vercel's Geist from their CDN
-# curl -L -o src/fonts/Geist-Regular.woff2 "https://geist.style/fonts/Geist/Geist-Regular.woff2"
+# Or use Inter from Google Fonts as fallback:
+# curl -L -o src/fonts/Geist-Regular.woff2 "https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiJ-Ek-_EeA.woff2"
 ```
 
 - [ ] **Step 5: Verify files exist**
@@ -407,7 +407,10 @@ npm run dev
 
 ```bash
 # Query database for an existing roast result ID
-psql -U devroast -d devroast -t -c "SELECT id FROM roast_results LIMIT 1;"
+psql -h localhost -p 5432 -U devroast -d devroast -t -c "SELECT id FROM roast_results LIMIT 1;"
+
+# Or use drizzle studio:
+# npx drizzle-kit studio
 ```
 
 If no results, create a new roast via the UI or API to generate a test ID.
