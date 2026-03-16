@@ -9,8 +9,6 @@ export const metadata: Metadata = {
 	description: "The most roasted code on the internet",
 };
 
-export const revalidate = 3600;
-
 export default async function LeaderboardPage() {
 	const data = await serverCaller.metrics.getFullLeaderboard();
 

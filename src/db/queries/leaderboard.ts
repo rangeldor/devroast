@@ -1,4 +1,5 @@
 import { asc, avg, count, desc, sql } from "drizzle-orm";
+import { cacheLife } from "next/cache";
 import { codeToHtml } from "shiki";
 
 import { db } from "../index";
@@ -13,10 +14,7 @@ export interface LeaderboardEntry {
 	createdAt: Date;
 }
 
-export async function getLeaderboard(
-	limit: number = 20,
-	offset: number = 0,
-): Promise<LeaderboardEntry[]> {
+async function fetchLeaderboard(limit: number, offset: number) {
 	const results = await db
 		.select({
 			id: codeSubmissions.id,
@@ -38,10 +36,23 @@ export async function getLeaderboard(
 	return results;
 }
 
+export async function getLeaderboard(
+	limit: number = 20,
+	offset: number = 0,
+): Promise<LeaderboardEntry[]> {
+	"use cache";
+	cacheLife("hours");
+
+	return fetchLeaderboard(limit, offset);
+}
+
 export async function getLeaderboardPreview(
 	limit: number = 5,
 ): Promise<LeaderboardEntry[]> {
-	return getLeaderboard(limit, 0);
+	"use cache";
+	cacheLife("hours");
+
+	return fetchLeaderboard(limit, 0);
 }
 
 export interface ShameLeaderboardData {
@@ -50,8 +61,11 @@ export interface ShameLeaderboardData {
 	avgScore: number;
 }
 
-export async function getShameLeaderboardWithMetrics(): Promise<ShameLeaderboardData> {
-	const entries = await getLeaderboard(3, 0);
+async function fetchShameLeaderboardMetrics() {
+	"use cache";
+	cacheLife("hours");
+
+	const entries = await fetchLeaderboard(3, 0);
 
 	const [stats] = await db
 		.select({
@@ -65,6 +79,10 @@ export async function getShameLeaderboardWithMetrics(): Promise<ShameLeaderboard
 		totalRoasts: stats?.totalRoasts ?? 0,
 		avgScore: stats?.avgScore ?? 0,
 	};
+}
+
+export async function getShameLeaderboardWithMetrics(): Promise<ShameLeaderboardData> {
+	return fetchShameLeaderboardMetrics();
 }
 
 export async function renderCodeHighlight(code: string, language: string) {

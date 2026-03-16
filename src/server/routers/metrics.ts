@@ -1,4 +1,6 @@
 import { avg, count, sql } from "drizzle-orm";
+import { cacheLife } from "next/cache";
+
 import { db } from "@/db";
 import {
 	getLeaderboard,
@@ -22,6 +24,9 @@ export const metricsRouter = router({
 		return getShameLeaderboardWithMetrics();
 	}),
 	getFullLeaderboard: publicProcedure.query(async () => {
+		"use cache";
+		cacheLife("hours");
+
 		const entries = await getLeaderboard(20, 0);
 		const [stats] = await db
 			.select({
