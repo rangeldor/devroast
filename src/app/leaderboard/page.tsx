@@ -1,78 +1,35 @@
 import type { Metadata } from "next";
-
-import {
-	CodeBlockBody,
-	CodeBlockCode,
-	CodeBlockHeader,
-	CodeBlockLineNumbers,
-	CodeBlockRoot,
-} from "@/components/ui/code-block";
+import { LeaderboardRow } from "@/components/leaderboard-row";
+import { renderCodeHighlight } from "@/db/queries/leaderboard";
+import { serverCaller } from "@/lib/trpc/server";
 
 export const metadata: Metadata = {
 	title: "Leaderboard | DevRoast",
 	description: "The most roasted code on the internet",
 };
 
-const leaderboardEntries = [
-	{
-		rank: "#1",
-		rankNumber: "1",
-		score: "1.2",
-		language: "javascript",
-		lines: 3,
-		code: [
-			'eval(prompt("enter code"))',
-			"document.write(response)",
-			"// trust the user lol",
-		],
-	},
-	{
-		rank: "#2",
-		rankNumber: "2",
-		score: "1.8",
-		language: "typescript",
-		lines: 3,
-		code: [
-			"if (x == true) { return true; }",
-			"else if (x == false) { return false; }",
-			"else { return !false; }",
-		],
-	},
-	{
-		rank: "#3",
-		rankNumber: "3",
-		score: "2.3",
-		language: "sql",
-		lines: 2,
-		code: ["SELECT * FROM users WHERE 1=1", "AND password = 'admin' --"],
-	},
-	{
-		rank: "#4",
-		rankNumber: "4",
-		score: "2.7",
-		language: "java",
-		lines: 3,
-		code: [
-			"public class Main {",
-			"    public static void main(String[] args) {",
-			"        // TODO: implement",
-		],
-	},
-	{
-		rank: "#5",
-		rankNumber: "5",
-		score: "3.1",
-		language: "javascript",
-		lines: 3,
-		code: [
-			"function foo() {",
-			"  return arguments;",
-			"} // no arguments passed",
-		],
-	},
-];
+export default async function LeaderboardPage() {
+	const data = await serverCaller.metrics.getFullLeaderboard();
 
-export default function LeaderboardPage() {
+	const entriesWithRank = await Promise.all(
+		data.entries.map(async (entry, index) => {
+			const codeLines = entry.codePreview.split("\n");
+			const previewCode = codeLines.slice(0, 3).join("\n");
+
+			const [highlightedCode, highlightedPreview] = await Promise.all([
+				renderCodeHighlight(entry.codePreview, entry.language),
+				renderCodeHighlight(previewCode, entry.language),
+			]);
+
+			return {
+				...entry,
+				rank: `#${index + 1}`,
+				highlightedCode,
+				highlightedPreview,
+			};
+		}),
+	);
+
 	return (
 		<main className="flex min-h-[calc(100vh-3.5rem)] flex-col bg-background px-20 py-10">
 			<div className="mx-auto flex w-full max-w-6xl flex-col gap-10">
@@ -92,63 +49,45 @@ export default function LeaderboardPage() {
 
 					<div className="flex items-center gap-2">
 						<span className="font-mono text-xs text-text-tertiary">
-							2,847 submissions
+							{data.totalRoasts.toLocaleString()} submissions
 						</span>
 						<span className="font-mono text-xs text-text-tertiary">·</span>
 						<span className="font-mono text-xs text-text-tertiary">
-							avg score: 4.2/10
+							avg score: {data.avgScore.toFixed(1)}/10
 						</span>
 					</div>
 				</section>
 
 				<section className="flex flex-col gap-5">
-					{leaderboardEntries.map((entry) => (
-						<article key={entry.rank} className="flex flex-col">
-							<CodeBlockRoot>
-								<CodeBlockHeader>
-									<div className="flex items-center gap-4">
-										<div className="flex items-center gap-1.5">
-											<span className="font-mono text-sm text-text-tertiary">
-												#
-											</span>
-											<span className="font-mono text-sm font-bold text-amber-accent">
-												{entry.rankNumber}
-											</span>
-										</div>
-										<div className="flex items-center gap-1.5">
-											<span className="font-mono text-xs text-text-tertiary">
-												score:
-											</span>
-											<span className="font-mono text-sm font-bold text-red-accent">
-												{entry.score}
-											</span>
-										</div>
-									</div>
-									<div className="ml-auto flex items-center gap-3">
-										<span className="font-mono text-xs text-text-secondary">
-											{entry.language}
-										</span>
-										<span className="font-mono text-xs text-text-tertiary">
-											{entry.lines} lines
-										</span>
-									</div>
-								</CodeBlockHeader>
-								<CodeBlockBody className="flex-row">
-									<CodeBlockLineNumbers lines={entry.lines} />
-									<CodeBlockCode className="px-4 py-4">
-										{entry.code.map((line, index) => (
-											<code
-												key={index}
-												className="block font-mono text-xs leading-[1.5] text-foreground"
-											>
-												{line}
-											</code>
-										))}
-									</CodeBlockCode>
-								</CodeBlockBody>
-							</CodeBlockRoot>
-						</article>
-					))}
+					<div className="overflow-x-auto rounded-lg border border-border">
+						<div className="w-full min-w-0">
+							<div className="flex justify-start items-center border-b border-border bg-surface">
+								<div className="flex items-center h-10 w-10 px-2 font-mono text-xs font-medium text-muted-foreground">
+									rank
+								</div>
+								<div className="flex items-center justify-start h-10 w-[60px] px-2 font-mono text-xs font-medium text-muted-foreground">
+									score
+								</div>
+								<div className="flex items-center justify-start h-10 flex-1 px-2 font-mono text-xs font-medium text-muted-foreground">
+									code
+								</div>
+								<div className="flex items-center justify-start h-10 w-[100px] px-2 font-mono text-xs font-medium text-muted-foreground">
+									lang
+								</div>
+							</div>
+
+							<div className="flex flex-col">
+								{entriesWithRank.map((entry) => (
+									<LeaderboardRow
+										key={entry.id}
+										entry={entry}
+										highlightedCode={entry.highlightedCode}
+										highlightedPreview={entry.highlightedPreview}
+									/>
+								))}
+							</div>
+						</div>
+					</div>
 				</section>
 			</div>
 		</main>
