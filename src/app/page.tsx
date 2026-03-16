@@ -1,5 +1,8 @@
+import { Suspense } from "react";
+
 import { CodeInputSection } from "@/components/code-input-section";
 import { ShameLeaderboard } from "@/components/shame-leaderboard";
+import { ShameLeaderboardSkeleton } from "@/components/shame-leaderboard-skeleton";
 import { getShameLeaderboardWithMetrics } from "@/db/queries/leaderboard";
 
 export default async function Home() {
@@ -9,7 +12,9 @@ export default async function Home() {
 		<main className="flex min-h-[calc(100vh-3.5rem)] flex-col items-center bg-background pt-20">
 			<div className="mx-auto flex w-full max-w-6xl flex-col items-center px-6 pb-20 gap-12">
 				<CodeInputSection />
-				<ShameLeaderboard data={data} />
+				<Suspense fallback={<ShameLeaderboardSkeleton />}>
+					<ShameLeaderboard data={data} />
+				</Suspense>
 			</div>
 		</main>
 	);
